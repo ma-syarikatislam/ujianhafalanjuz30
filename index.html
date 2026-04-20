@@ -13,60 +13,118 @@
             theme: {
                 extend: {
                     fontFamily: { ui: ['Plus Jakarta Sans','sans-serif'], arabic: ['Amiri','serif'] },
-                    colors: {
-                        base: { 50:'#F0F5F1',100:'#D5E5D9',200:'#8BA898',300:'#3D6B50',400:'#1E3D2B',500:'#122B1C',600:'#0A1F14' },
-                        emerald: { DEFAULT:'#1DB954', dark:'#0D7A35', light:'#2EE66A' },
-                        gold: { DEFAULT:'#D4A843', light:'#FFD700', dark:'#B8860B' },
-                        silver: { DEFAULT:'#C0C0C0', light:'#E8E8E8', dark:'#808080' },
-                        jayyid: '#E8A838',
-                    }
                 }
             }
         }
     </script>
     <style>
+        /* ====== MODE GELAP (default) ====== */
         :root {
             --bg:#0A1F14; --card:#122B1C; --elevated:#1A3A28; --border:#1E3D2B;
             --text:#F0F5F1; --muted:#8BA898; --emerald:#1DB954;
             --gold:#D4A843; --gold-light:#FFD700; --silver:#C0C0C0; --silver-light:#E8E8E8;
             --jayyid:#E8A838;
+            --header-from:#0D3320; --header-via:#0A1F14; --header-to:#122B1C;
+            --header-crescent-bg:#0D3320;
+            --particle-color:#D4A843;
+            --glow-gold:rgba(212,168,67,.08);
+            --search-bg:var(--card); --search-border:var(--border);
+            --stat-bg:linear-gradient(135deg,rgba(26,58,40,.9),rgba(18,43,28,.9));
+            --sheet-from:#152E20; --sheet-to:var(--bg);
+            --tile-m-bg:linear-gradient(135deg,rgba(29,185,84,.2),rgba(29,185,84,.08));
+            --tile-m-border:rgba(29,185,84,.25);
+            --tile-j-bg:linear-gradient(135deg,rgba(232,168,56,.2),rgba(232,168,56,.08));
+            --tile-j-border:rgba(232,168,56,.25);
+            --tile-e-bg:rgba(30,61,43,.3);
+            --tile-e-border:rgba(30,61,43,.5);
+            --overlay-bg:rgba(0,0,0,.6);
+            --body-pattern-1:rgba(29,185,84,.03);
+            --body-pattern-2:rgba(212,168,67,.02);
+            --toggle-bg:#1A3A28; --toggle-knob:#F0F5F1;
         }
+
+        /* ====== MODE TERANG ====== */
+        html.light {
+            --bg:#F6F1E7; --card:#FFFFFF; --elevated:#EDE8DE; --border:#D5CEBD;
+            --text:#1A2E22; --muted:#6B8F7B; --emerald:#0D7A35;
+            --gold:#B8860B; --gold-light:#D4A843; --silver:#808080; --silver-light:#6B6B6B;
+            --jayyid:#C47F1A;
+            --header-from:#163D28; --header-via:#0F2E1C; --header-to:#1A4A30;
+            --header-crescent-bg:#163D28;
+            --particle-color:rgba(255,215,0,.6);
+            --glow-gold:rgba(255,215,0,.12);
+            --search-bg:#FFFFFF; --search-border:#D5CEBD;
+            --stat-bg:linear-gradient(135deg,rgba(255,255,255,.95),rgba(246,241,231,.95));
+            --sheet-from:#FFFFFF; --sheet-to:#F6F1E7;
+            --tile-m-bg:linear-gradient(135deg,rgba(13,122,53,.12),rgba(13,122,53,.05));
+            --tile-m-border:rgba(13,122,53,.2);
+            --tile-j-bg:linear-gradient(135deg,rgba(196,127,26,.12),rgba(196,127,26,.05));
+            --tile-j-border:rgba(196,127,26,.2);
+            --tile-e-bg:rgba(213,206,189,.4);
+            --tile-e-border:rgba(213,206,189,.7);
+            --overlay-bg:rgba(0,0,0,.35);
+            --body-pattern-1:rgba(13,122,53,.02);
+            --body-pattern-2:rgba(184,134,11,.015);
+            --toggle-bg:#D5CEBD; --toggle-knob:#FFFFFF;
+        }
+
         *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         html{scroll-behavior:smooth}
-        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;padding-bottom:2rem}
-        body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 25% 25%,rgba(29,185,84,.03) 0%,transparent 50%),radial-gradient(circle at 75% 75%,rgba(212,168,67,.02) 0%,transparent 50%);background-size:60px 60px,80px 80px;pointer-events:none;z-index:0}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;padding-bottom:2rem;transition:background .4s,color .4s}
+        body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 25% 25%,var(--body-pattern-1) 0%,transparent 50%),radial-gradient(circle at 75% 75%,var(--body-pattern-2) 0%,transparent 50%);background-size:60px 60px,80px 80px;pointer-events:none;z-index:0;transition:background .4s}
         #app{position:relative;z-index:1;max-width:480px;margin:0 auto}
 
-        .header-bg{background:linear-gradient(160deg,#0D3320 0%,#0A1F14 40%,#122B1C 100%);position:relative;overflow:hidden;padding:2.5rem 1.25rem 2rem;border-bottom-left-radius:1.5rem;border-bottom-right-radius:1.5rem}
-        .header-bg::before{content:'';position:absolute;top:-60%;right:-30%;width:300px;height:300px;background:radial-gradient(circle,rgba(212,168,67,.08) 0%,transparent 70%);border-radius:50%;animation:headerGlow 6s ease-in-out infinite alternate}
+        /* ====== HEADER ====== */
+        .header-bg{background:linear-gradient(160deg,var(--header-from) 0%,var(--header-via) 40%,var(--header-to) 100%);position:relative;overflow:hidden;padding:2rem 1.25rem 2rem;border-bottom-left-radius:1.5rem;border-bottom-right-radius:1.5rem;transition:background .4s}
+        .header-bg::before{content:'';position:absolute;top:-60%;right:-30%;width:300px;height:300px;background:radial-gradient(circle,var(--glow-gold) 0%,transparent 70%);border-radius:50%;animation:headerGlow 6s ease-in-out infinite alternate}
         @keyframes headerGlow{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-20px,20px) scale(1.15)}}
-        .particle{position:absolute;width:3px;height:3px;background:var(--gold);border-radius:50%;opacity:0;animation:floatUp 5s ease-in-out infinite}
+        .particle{position:absolute;width:3px;height:3px;background:var(--particle-color);border-radius:50%;opacity:0;animation:floatUp 5s ease-in-out infinite}
         @keyframes floatUp{0%{opacity:0;transform:translateY(20px) scale(0)}20%{opacity:.8}80%{opacity:.3}100%{opacity:0;transform:translateY(-80px) scale(1)}}
-        .crescent-icon{width:48px;height:48px;margin-bottom:.75rem}
 
-        .stat-card{background:linear-gradient(135deg,rgba(26,58,40,.9),rgba(18,43,28,.9));border:1px solid var(--border);border-radius:1rem;padding:.875rem;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s}
+        /* ====== LOGO ====== */
+        .logo-wrap{width:52px;height:52px;margin-bottom:.75rem;position:relative}
+        .logo-wrap img{width:100%;height:100%;object-fit:contain;border-radius:.5rem;filter:drop-shadow(0 2px 8px rgba(0,0,0,.25))}
+        .logo-fallback{width:100%;height:100%;border-radius:.5rem;background:linear-gradient(135deg,rgba(29,185,84,.15),rgba(212,168,67,.15));display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--gold)}
+
+        /* ====== TOGGLE MODE ====== */
+        .mode-toggle{display:flex;align-items:center;gap:.5rem;position:absolute;top:1rem;right:1rem;z-index:5}
+        .mode-toggle button{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:.8rem;cursor:pointer;transition:all .25s;backdrop-filter:blur(8px)}
+        .mode-toggle button:active{transform:scale(.9)}
+        .mode-toggle button.active-mode{background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.3)}
+
+        /* ====== STAT CARDS ====== */
+        .stat-card{background:var(--stat-bg);border:1px solid var(--border);border-radius:1rem;padding:.875rem;backdrop-filter:blur(10px);transition:transform .2s,border-color .2s,background .4s}
         .stat-card:active{transform:scale(.96)}
         .stat-card.gold-stat{border-color:rgba(212,168,67,.3)}
+        html.light .stat-card.gold-stat{border-color:rgba(184,134,11,.25)}
         .stat-card.silver-stat{border-color:rgba(192,192,192,.3)}
+        html.light .stat-card.silver-stat{border-color:rgba(128,128,128,.25)}
 
+        /* ====== SEARCH ====== */
         .search-wrap{position:relative}
-        .search-wrap input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:.875rem;padding:.75rem 1rem .75rem 2.75rem;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+        .search-wrap input{width:100%;background:var(--search-bg);border:1px solid var(--search-border);border-radius:.875rem;padding:.75rem 1rem .75rem 2.75rem;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s,background .4s,color .4s}
         .search-wrap input::placeholder{color:var(--muted)}
         .search-wrap input:focus{border-color:var(--emerald);box-shadow:0 0 0 3px rgba(29,185,84,.15)}
+        html.light .search-wrap input:focus{box-shadow:0 0 0 3px rgba(13,122,53,.1)}
         .search-wrap>.search-icon{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.85rem;pointer-events:none}
 
+        /* ====== FILTER PILLS ====== */
         .pill{padding:.5rem 1rem;border-radius:2rem;font-size:.8rem;font-weight:600;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .25s;white-space:nowrap;font-family:inherit}
         .pill.active{background:var(--emerald);border-color:var(--emerald);color:#fff;box-shadow:0 2px 12px rgba(29,185,84,.3)}
+        html.light .pill.active{box-shadow:0 2px 12px rgba(13,122,53,.2)}
         .pill:not(.active):active{background:var(--elevated)}
 
-        .student-card{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1rem 1rem 1rem .75rem;display:flex;align-items:center;gap:.875rem;cursor:pointer;transition:transform .2s,border-color .2s;animation:cardIn .4s ease-out both}
+        /* ====== STUDENT CARDS ====== */
+        .student-card{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1rem 1rem 1rem .75rem;display:flex;align-items:center;gap:.875rem;cursor:pointer;transition:transform .2s,border-color .2s,background .4s;animation:cardIn .4s ease-out both}
         .student-card:active{transform:scale(.98)}
-        .student-card:hover{border-color:rgba(29,185,84,.3)}
+        .student-card:hover{border-color:var(--emerald)}
+        html.light .student-card:hover{border-color:rgba(13,122,53,.3)}
         @keyframes cardIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
         .avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0;color:#fff}
-        .progress-track{height:6px;background:var(--elevated);border-radius:3px;overflow:hidden;margin-top:.4rem}
+        .progress-track{height:6px;background:var(--elevated);border-radius:3px;overflow:hidden;margin-top:.4rem;transition:background .4s}
         .progress-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.22,1,.36,1);width:0}
 
+        /* ====== LENCANA EMAS ====== */
         .gold-badge{width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#FFD700,#DAA520,#B8860B,#DAA520,#FFD700);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 0 8px rgba(255,215,0,.5),0 0 20px rgba(255,215,0,.25),0 0 40px rgba(255,215,0,.1),inset 0 1px 2px rgba(255,255,255,.4)}
         .gold-badge::before{content:'';position:absolute;top:-120%;left:-120%;width:340%;height:340%;background:linear-gradient(55deg,transparent 38%,rgba(255,255,255,.35) 44%,rgba(255,255,255,.6) 50%,rgba(255,255,255,.35) 56%,transparent 62%);animation:goldSweep 2.8s ease-in-out infinite}
         @keyframes goldSweep{0%{transform:translate(-25%,-25%) rotate(30deg)}50%{transform:translate(25%,25%) rotate(30deg)}100%{transform:translate(-25%,-25%) rotate(30deg)}}
@@ -74,37 +132,41 @@
         .gold-badge::after{content:'';position:absolute;width:4px;height:4px;background:#fff;border-radius:50%;top:4px;right:6px;animation:sparkle 2s ease-in-out infinite;z-index:2}
         @keyframes sparkle{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
 
+        /* ====== LENCANA PERAK ====== */
         .silver-badge{width:40px;height:40px;border-radius:50%;background:linear-gradient(145deg,#E8E8E8,#C0C0C0,#A0A0A0,#C0C0C0,#E8E8E8);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden;box-shadow:0 0 6px rgba(192,192,192,.35),0 0 16px rgba(192,192,192,.15),inset 0 1px 2px rgba(255,255,255,.5)}
         .silver-badge::before{content:'';position:absolute;top:-120%;left:-120%;width:340%;height:340%;background:linear-gradient(55deg,transparent 40%,rgba(255,255,255,.25) 46%,rgba(255,255,255,.4) 50%,rgba(255,255,255,.25) 54%,transparent 60%);animation:silverSweep 4s ease-in-out infinite}
         @keyframes silverSweep{0%{transform:translate(-25%,-25%) rotate(30deg)}50%{transform:translate(25%,25%) rotate(30deg)}100%{transform:translate(-25%,-25%) rotate(30deg)}}
         .silver-badge i{color:#4A4A4A;font-size:1rem;position:relative;z-index:1}
 
-        .sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
+        /* ====== BOTTOM SHEET ====== */
+        .sheet-overlay{position:fixed;inset:0;background:var(--overlay-bg);z-index:100;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px)}
         .sheet-overlay.open{opacity:1;pointer-events:auto}
-        .sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;max-height:88vh;background:linear-gradient(180deg,#152E20 0%,var(--bg) 100%);border-top-left-radius:1.5rem;border-top-right-radius:1.5rem;z-index:101;transition:transform .4s cubic-bezier(.22,1,.36,1);overflow:hidden;display:flex;flex-direction:column}
+        .sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:480px;max-height:88vh;background:linear-gradient(180deg,var(--sheet-from) 0%,var(--sheet-to) 100%);border-top-left-radius:1.5rem;border-top-right-radius:1.5rem;z-index:101;transition:transform .4s cubic-bezier(.22,1,.36,1),background .4s;overflow:hidden;display:flex;flex-direction:column}
         .sheet.open{transform:translateX(-50%) translateY(0)}
-        .sheet-handle{width:36px;height:4px;background:var(--muted);border-radius:2px;margin:.75rem auto 0;flex-shrink:0}
+        .sheet-handle{width:36px;height:4px;background:var(--muted);border-radius:2px;margin:.75rem auto 0;flex-shrink:0;transition:background .4s}
         .sheet-body{padding:1rem 1.25rem 2rem;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
 
+        /* ====== SURAH GRID ====== */
         .surah-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-        .surah-tile{aspect-ratio:1;border-radius:.625rem;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transition:transform .15s;border:1px solid transparent}
+        .surah-tile{aspect-ratio:1;border-radius:.625rem;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;transition:transform .15s,background .4s,border-color .4s;border:1px solid transparent}
         .surah-tile:active{transform:scale(.92)}
-        .surah-tile.m-tile{background:linear-gradient(135deg,rgba(29,185,84,.2),rgba(29,185,84,.08));border-color:rgba(29,185,84,.25)}
-        .surah-tile.j-tile{background:linear-gradient(135deg,rgba(232,168,56,.2),rgba(232,168,56,.08));border-color:rgba(232,168,56,.25)}
-        .surah-tile.empty-tile{background:rgba(30,61,43,.3);border-color:rgba(30,61,43,.5)}
+        .surah-tile.m-tile{background:var(--tile-m-bg);border-color:var(--tile-m-border)}
+        .surah-tile.j-tile{background:var(--tile-j-bg);border-color:var(--tile-j-border)}
+        .surah-tile.empty-tile{background:var(--tile-e-bg);border-color:var(--tile-e-border)}
         .surah-tile .tile-num{font-size:.55rem;color:var(--muted);margin-bottom:1px}
         .surah-tile .tile-grade{font-weight:800;font-size:.85rem;line-height:1}
         .surah-tile.m-tile .tile-grade{color:var(--emerald)}
         .surah-tile.j-tile .tile-grade{color:var(--jayyid)}
-        .surah-tile.empty-tile .tile-grade{color:rgba(139,168,152,.3)}
+        .surah-tile.empty-tile .tile-grade{color:var(--border)}
         .surah-tile .tile-name{font-size:.48rem;color:var(--muted);margin-top:2px;text-align:center;line-height:1.1;max-width:95%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
         .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
 
+        /* ====== LOADING / ERROR ====== */
         .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:2rem;text-align:center}
         .loader-ring{width:56px;height:56px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--emerald);animation:spin 1s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
         .error-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;padding:2rem;text-align:center}
-        .error-box{background:var(--card);border:1px solid rgba(232,93,117,.3);border-radius:1rem;padding:2rem;max-width:340px;width:100%}
+        .error-box{background:var(--card);border:1px solid rgba(232,93,117,.3);border-radius:1rem;padding:2rem;max-width:340px;width:100%;transition:background .4s}
         .error-box code{background:var(--elevated);padding:.15rem .4rem;border-radius:.25rem;font-size:.8rem;color:var(--jayyid)}
         .empty-state{text-align:center;padding:3rem 1rem;color:var(--muted)}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
@@ -120,15 +182,21 @@
             <div class="particle" style="left:75%;bottom:15%;animation-delay:2s"></div>
             <div class="particle" style="left:85%;bottom:25%;animation-delay:3.2s"></div>
             <div class="particle" style="left:45%;bottom:5%;animation-delay:1.8s"></div>
-            <svg class="crescent-icon" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-                <circle cx="45" cy="50" r="35" fill="#D4A843"/>
-                <circle cx="58" cy="42" r="30" fill="#0D3320"/>
-                <circle cx="72" cy="28" r="3" fill="#D4A843" opacity=".7"/>
-                <circle cx="80" cy="50" r="2" fill="#D4A843" opacity=".5"/>
-                <circle cx="68" cy="65" r="2.5" fill="#D4A843" opacity=".6"/>
-            </svg>
+
+            <!-- Toggle Mode -->
+            <div class="mode-toggle">
+                <button id="btn-dark" class="active-mode" aria-label="Mode gelap" title="Mode Gelap"><i class="fas fa-moon"></i></button>
+                <button id="btn-light" aria-label="Mode terang" title="Mode Terang"><i class="fas fa-sun"></i></button>
+            </div>
+
+            <!-- Logo Sekolah -->
+            <div class="logo-wrap">
+                <img src="logo.png" alt="Logo Sekolah" id="school-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div class="logo-fallback" style="display:none"><i class="fas fa-mosque"></i></div>
+            </div>
+
             <h1 class="text-xl font-extrabold tracking-tight">Progres Hafalan</h1>
-            <h2 class="text-2xl font-extrabold tracking-tight mt-0.5" style="color:var(--gold)">Juz 30</h2>
+            <h2 class="text-2xl font-extrabold tracking-tight mt-0.5" style="color:var(--gold-light)">Juz 30</h2>
             <p class="font-arabic text-lg mt-2" style="color:var(--muted)">مُمْتَازٌ وَجَيِّدٌ</p>
         </header>
         <div id="main-content"></div>
@@ -142,7 +210,7 @@
 
     <script>
     /* ============================================================
-       KONFIGURASI — Ganti nama file XLS di sini jika perlu
+       KONFIGURASI
        ============================================================ */
     const XLS_FILE = 'data.xlsx';
     const TOTAL_SURAH = 37;
@@ -169,6 +237,32 @@
     let searchQuery = '';
 
     /* ============================================================
+       MODE GELAP / TERANG
+       ============================================================ */
+    const btnDark = document.getElementById('btn-dark');
+    const btnLight = document.getElementById('btn-light');
+
+    function setMode(mode) {
+        if (mode === 'light') {
+            document.documentElement.classList.add('light');
+            btnDark.classList.remove('active-mode');
+            btnLight.classList.add('active-mode');
+        } else {
+            document.documentElement.classList.remove('light');
+            btnDark.classList.add('active-mode');
+            btnLight.classList.remove('active-mode');
+        }
+        localStorage.setItem('theme-mode', mode);
+    }
+
+    // Muat preferensi tersimpan
+    const savedMode = localStorage.getItem('theme-mode') || 'dark';
+    setMode(savedMode);
+
+    btnDark.addEventListener('click', () => setMode('dark'));
+    btnLight.addEventListener('click', () => setMode('light'));
+
+    /* ============================================================
        LOAD & PARSE DATA
        ============================================================ */
     async function init() {
@@ -191,25 +285,18 @@
     function parseRows(rows) {
         let startIdx = 0;
         if (rows.length > 0) {
-            // Cek apakah baris pertama adalah header (bukan data santri)
-            // Data santri: kolom 0 = nama, kolom 1+ = M/J/kosong
-            // Header: kolom 0 = "Nama"/"No"/dsb, kolom 1+ = nama surah
             const firstRowGrades = rows[0].slice(1).map(c => String(c).trim().toUpperCase());
             const hasMJ = firstRowGrades.some(v => v === 'M' || v === 'J');
             if (!hasMJ) startIdx = 1;
         }
-
         students = [];
         for (let i = startIdx; i < rows.length; i++) {
             const row = rows[i];
             if (!row || row.length === 0) continue;
-
             const name = String(row[0] || '').trim();
-            // Skip baris yang jelas bukan nama santri
             if (!name) continue;
             const lowerName = name.toLowerCase();
             if (['nama','name','no','#','nomor','santri','no.'].includes(lowerName)) continue;
-
             const grades = [];
             for (let j = 1; j <= TOTAL_SURAH; j++) {
                 const cell = String(row[j] || '').trim().toUpperCase();
@@ -218,7 +305,6 @@
                 else grades.push('');
             }
             while (grades.length < TOTAL_SURAH) grades.push('');
-
             const mCount = grades.filter(g => g === 'M').length;
             const jCount = grades.filter(g => g === 'J').length;
             const emptyCount = grades.filter(g => g === '').length;
@@ -227,50 +313,45 @@
             const isGold = isComplete && mCount === TOTAL_SURAH;
             const isSilver = isComplete && mCount < TOTAL_SURAH;
             const percent = Math.round((completed / TOTAL_SURAH) * 100);
-
             students.push({ name, grades, mCount, jCount, emptyCount, completed, isComplete, isGold, isSilver, percent });
         }
     }
 
     /* ============================================================
-       LOADING & ERROR UI
+       LOADING & ERROR
        ============================================================ */
     function showLoading() {
-        document.getElementById('main-content').innerHTML = `
-            <div class="loading-screen">
-                <div class="loader-ring"></div>
-                <p class="mt-4 text-sm" style="color:var(--muted)">Memuat data hafalan...</p>
-            </div>`;
+        document.getElementById('main-content').innerHTML =
+            '<div class="loading-screen"><div class="loader-ring"></div><p class="mt-4 text-sm" style="color:var(--muted)">Memuat data hafalan...</p></div>';
     }
 
     function showError(type) {
         const m = document.getElementById('main-content');
         if (type === 'file_not_found') {
-            m.innerHTML = `
-            <div class="error-screen"><div class="error-box">
-                <i class="fas fa-file-circle-exclamation text-3xl mb-3" style="color:#E85D75"></i>
-                <h3 class="font-bold text-base mb-2">File tidak ditemukan</h3>
-                <p class="text-sm mb-4" style="color:var(--muted)">Pastikan file <code>${XLS_FILE}</code> ada di satu folder dengan <code>index.html</code>.</p>
-                <div class="text-left p-3 rounded-lg text-xs" style="background:var(--elevated);color:var(--muted);line-height:1.8">
-                    <div class="font-bold mb-1" style="color:var(--text)">Struktur folder:</div>
-                    <div>📁 repo/<br>&nbsp;&nbsp;&nbsp;├── index.html<br>&nbsp;&nbsp;&nbsp;└── ${XLS_FILE}</div>
-                </div>
-            </div></div>`;
+            m.innerHTML =
+                '<div class="error-screen"><div class="error-box">' +
+                '<i class="fas fa-file-circle-exclamation text-3xl mb-3" style="color:#E85D75"></i>' +
+                '<h3 class="font-bold text-base mb-2">File tidak ditemukan</h3>' +
+                '<p class="text-sm mb-4" style="color:var(--muted)">Pastikan file <code>' + XLS_FILE + '</code> ada di satu folder dengan <code>index.html</code>.</p>' +
+                '<div class="text-left p-3 rounded-lg text-xs" style="background:var(--elevated);color:var(--muted);line-height:1.8">' +
+                '<div class="font-bold mb-1" style="color:var(--text)">Struktur folder:</div>' +
+                '<div>📁 repo/<br>&nbsp;&nbsp;&nbsp;├── index.html<br>&nbsp;&nbsp;&nbsp;├── logo.png<br>&nbsp;&nbsp;&nbsp;└── ' + XLS_FILE + '</div>' +
+                '</div></div></div>';
         } else if (type === 'empty') {
-            m.innerHTML = `
-            <div class="error-screen"><div class="error-box">
-                <i class="fas fa-table text-3xl mb-3" style="color:var(--jayyid)"></i>
-                <h3 class="font-bold text-base mb-2">Data kosong</h3>
-                <p class="text-sm" style="color:var(--muted)">File XLS ditemukan tapi tidak ada data santri. Periksa format kolomnya.</p>
-            </div></div>`;
+            m.innerHTML =
+                '<div class="error-screen"><div class="error-box">' +
+                '<i class="fas fa-table text-3xl mb-3" style="color:var(--jayyid)"></i>' +
+                '<h3 class="font-bold text-base mb-2">Data kosong</h3>' +
+                '<p class="text-sm" style="color:var(--muted)">File XLS ditemukan tapi tidak ada data santri. Periksa format kolomnya.</p>' +
+                '</div></div>';
         } else {
-            m.innerHTML = `
-            <div class="error-screen"><div class="error-box">
-                <i class="fas fa-triangle-exclamation text-3xl mb-3" style="color:var(--jayyid)"></i>
-                <h3 class="font-bold text-base mb-2">Terjadi kesalahan</h3>
-                <p class="text-sm" style="color:var(--muted)">${type}</p>
-                <p class="text-xs mt-3" style="color:var(--muted)">Pastikan file dibuka dari server (GitHub Pages), bukan dari <code>file://</code></p>
-            </div></div>`;
+            m.innerHTML =
+                '<div class="error-screen"><div class="error-box">' +
+                '<i class="fas fa-triangle-exclamation text-3xl mb-3" style="color:var(--jayyid)"></i>' +
+                '<h3 class="font-bold text-base mb-2">Terjadi kesalahan</h3>' +
+                '<p class="text-sm" style="color:var(--muted)">' + type + '</p>' +
+                '<p class="text-xs mt-3" style="color:var(--muted)">Pastikan file dibuka dari server (GitHub Pages), bukan dari <code>file://</code></p>' +
+                '</div></div>';
         }
     }
 
@@ -278,37 +359,21 @@
        RENDER UTAMA
        ============================================================ */
     function renderAll() {
-        document.getElementById('main-content').innerHTML = `
-            <section class="grid grid-cols-4 gap-2.5 px-4 -mt-4 relative z-10">
-                <div class="stat-card">
-                    <div class="text-xs font-semibold" style="color:var(--muted)">Santri</div>
-                    <div class="text-lg font-extrabold mt-0.5" id="stat-total">0</div>
-                </div>
-                <div class="stat-card gold-stat">
-                    <div class="text-xs font-semibold" style="color:var(--gold)">Emas</div>
-                    <div class="text-lg font-extrabold mt-0.5" style="color:var(--gold-light)" id="stat-gold">0</div>
-                </div>
-                <div class="stat-card silver-stat">
-                    <div class="text-xs font-semibold" style="color:var(--silver)">Perak</div>
-                    <div class="text-lg font-extrabold mt-0.5" style="color:var(--silver-light)" id="stat-silver">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="text-xs font-semibold" style="color:var(--muted)">Progres</div>
-                    <div class="text-lg font-extrabold mt-0.5" id="stat-progress">0</div>
-                </div>
-            </section>
-            <div class="search-wrap px-4 mt-5">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="search-input" placeholder="Cari nama santri..." aria-label="Cari nama santri">
-            </div>
-            <div class="flex gap-2 px-4 mt-3 overflow-x-auto pb-1" id="filter-bar" style="scrollbar-width:none">
-                <button class="pill active" data-filter="all">Semua</button>
-                <button class="pill" data-filter="gold"><i class="fas fa-medal mr-1" style="color:var(--gold)"></i>Emas</button>
-                <button class="pill" data-filter="silver"><i class="fas fa-medal mr-1" style="color:var(--silver)"></i>Perak</button>
-                <button class="pill" data-filter="progress">Belum Selesai</button>
-            </div>
-            <section class="px-4 mt-4 flex flex-col gap-3" id="student-list" role="list"></section>`;
-
+        document.getElementById('main-content').innerHTML =
+            '<section class="grid grid-cols-4 gap-2.5 px-4 -mt-4 relative z-10">' +
+                '<div class="stat-card"><div class="text-xs font-semibold" style="color:var(--muted)">Santri</div><div class="text-lg font-extrabold mt-0.5" id="stat-total">0</div></div>' +
+                '<div class="stat-card gold-stat"><div class="text-xs font-semibold" style="color:var(--gold)">Emas</div><div class="text-lg font-extrabold mt-0.5" style="color:var(--gold-light)" id="stat-gold">0</div></div>' +
+                '<div class="stat-card silver-stat"><div class="text-xs font-semibold" style="color:var(--silver)">Perak</div><div class="text-lg font-extrabold mt-0.5" style="color:var(--silver-light)" id="stat-silver">0</div></div>' +
+                '<div class="stat-card"><div class="text-xs font-semibold" style="color:var(--muted)">Progres</div><div class="text-lg font-extrabold mt-0.5" id="stat-progress">0</div></div>' +
+            '</section>' +
+            '<div class="search-wrap px-4 mt-5"><i class="fas fa-search search-icon"></i><input type="text" id="search-input" placeholder="Cari nama santri..." aria-label="Cari nama santri"></div>' +
+            '<div class="flex gap-2 px-4 mt-3 overflow-x-auto pb-1" id="filter-bar" style="scrollbar-width:none">' +
+                '<button class="pill active" data-filter="all">Semua</button>' +
+                '<button class="pill" data-filter="gold"><i class="fas fa-medal mr-1" style="color:var(--gold)"></i>Emas</button>' +
+                '<button class="pill" data-filter="silver"><i class="fas fa-medal mr-1" style="color:var(--silver)"></i>Perak</button>' +
+                '<button class="pill" data-filter="progress">Belum Selesai</button>' +
+            '</div>' +
+            '<section class="px-4 mt-4 flex flex-col gap-3" id="student-list" role="list"></section>';
         animateStats();
         renderStudentList();
         bindEvents();
@@ -318,16 +383,11 @@
         const gc = students.filter(s => s.isGold).length;
         const sc = students.filter(s => s.isSilver).length;
         const pc = students.filter(s => !s.isComplete).length;
-        [
-            ['stat-total', students.length],
-            ['stat-gold', gc],
-            ['stat-silver', sc],
-            ['stat-progress', pc]
-        ].forEach(([id, target]) => {
-            const el = document.getElementById(id);
-            let cur = 0;
-            const step = Math.max(1, Math.ceil(target / 15));
-            const iv = setInterval(() => {
+        [['stat-total',students.length],['stat-gold',gc],['stat-silver',sc],['stat-progress',pc]].forEach(function(pair) {
+            var el = document.getElementById(pair[0]);
+            var target = pair[1]; var cur = 0;
+            var step = Math.max(1, Math.ceil(target / 15));
+            var iv = setInterval(function() {
                 cur += step;
                 if (cur >= target) { cur = target; clearInterval(iv); }
                 el.textContent = cur;
@@ -339,53 +399,44 @@
        STUDENT LIST
        ============================================================ */
     function getFiltered() {
-        let f = students;
-        if (currentFilter === 'gold') f = f.filter(s => s.isGold);
-        else if (currentFilter === 'silver') f = f.filter(s => s.isSilver);
-        else if (currentFilter === 'progress') f = f.filter(s => !s.isComplete);
-        if (searchQuery) {
-            const q = searchQuery.toLowerCase();
-            f = f.filter(s => s.name.toLowerCase().includes(q));
-        }
-        const ord = { gold: 0, silver: 1, progress: 2 };
-        f.sort((a, b) => {
-            const ca = a.isGold ? 'gold' : a.isSilver ? 'silver' : 'progress';
-            const cb = b.isGold ? 'gold' : b.isSilver ? 'silver' : 'progress';
+        var f = students;
+        if (currentFilter === 'gold') f = f.filter(function(s){return s.isGold});
+        else if (currentFilter === 'silver') f = f.filter(function(s){return s.isSilver});
+        else if (currentFilter === 'progress') f = f.filter(function(s){return !s.isComplete});
+        if (searchQuery) { var q = searchQuery.toLowerCase(); f = f.filter(function(s){return s.name.toLowerCase().indexOf(q) !== -1}); }
+        var ord = { gold: 0, silver: 1, progress: 2 };
+        f.sort(function(a, b) {
+            var ca = a.isGold ? 'gold' : a.isSilver ? 'silver' : 'progress';
+            var cb = b.isGold ? 'gold' : b.isSilver ? 'silver' : 'progress';
             return ord[ca] !== ord[cb] ? ord[ca] - ord[cb] : b.percent - a.percent;
         });
         return f;
     }
 
     function renderStudentList() {
-        const list = document.getElementById('student-list');
+        var list = document.getElementById('student-list');
         if (!list) return;
-        const filtered = getFiltered();
-
+        var filtered = getFiltered();
         if (filtered.length === 0) {
-            list.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-search" style="font-size:2rem;opacity:.3"></i>
-                    <p class="mt-3 text-sm">Tidak ada santri ditemukan</p>
-                </div>`;
+            list.innerHTML = '<div class="empty-state"><i class="fas fa-search" style="font-size:2rem;opacity:.3"></i><p class="mt-3 text-sm">Tidak ada santri ditemukan</p></div>';
             return;
         }
-
-        list.innerHTML = filtered.map((s, idx) => {
-            const si = students.indexOf(s);
-            const initials = s.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-            const color = avatarColors[si % avatarColors.length];
-
-            let barBg = 'var(--emerald)';
+        var html = '';
+        for (var idx = 0; idx < filtered.length; idx++) {
+            var s = filtered[idx];
+            var si = students.indexOf(s);
+            var parts = s.name.split(' ');
+            var initials = (parts[0][0] + (parts.length > 1 ? parts[1][0] : '')).toUpperCase();
+            var color = avatarColors[si % avatarColors.length];
+            var barBg = 'var(--emerald)';
             if (s.isGold) barBg = 'linear-gradient(90deg,#1DB954,#2EE66A)';
             else if (s.isSilver) barBg = 'linear-gradient(90deg,#1DB954,#D4A843)';
             else if (s.percent > 50) barBg = 'linear-gradient(90deg,#1DB954,#E8A838)';
             else barBg = '#E8A838';
-
-            let badge = '';
+            var badge = '';
             if (s.isGold) badge = '<div class="gold-badge"><i class="fas fa-star"></i></div>';
             else if (s.isSilver) badge = '<div class="silver-badge"><i class="fas fa-medal"></i></div>';
-
-            let info = '';
+            var info = '';
             if (s.isGold) {
                 info = '<span class="text-xs font-semibold" style="color:var(--gold-light)">Mumtaz 100%</span>';
             } else if (s.isSilver) {
@@ -397,41 +448,33 @@
                     '<span style="color:var(--jayyid);font-weight:700">J ' + s.jCount + '</span>' +
                     '<span class="mx-1">&middot;</span>Sisa ' + s.emptyCount + '</span>';
             }
-
-            return '<div class="student-card" role="listitem" data-index="' + si + '" style="animation-delay:' + (idx * .05) + 's" tabindex="0" aria-label="' + s.name + ', progres ' + s.percent + ' persen">' +
+            html += '<div class="student-card" role="listitem" data-index="' + si + '" style="animation-delay:' + (idx * .05) + 's" tabindex="0">' +
                 '<div class="avatar" style="background:' + color + '">' + initials + '</div>' +
-                '<div class="flex-1 min-w-0">' +
-                    '<div class="font-bold text-sm truncate">' + s.name + '</div>' +
-                    '<div class="mt-0.5">' + info + '</div>' +
-                    '<div class="progress-track"><div class="progress-fill" data-width="' + s.percent + '" style="background:' + barBg + '"></div></div>' +
-                '</div>' + badge + '</div>';
-        }).join('');
-
-        // Animasi progress bar
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-            list.querySelectorAll('.progress-fill').forEach(el => {
-                el.style.width = el.dataset.width + '%';
+                '<div class="flex-1 min-w-0"><div class="font-bold text-sm truncate">' + s.name + '</div>' +
+                '<div class="mt-0.5">' + info + '</div>' +
+                '<div class="progress-track"><div class="progress-fill" data-width="' + s.percent + '" style="background:' + barBg + '"></div></div></div>' +
+                badge + '</div>';
+        }
+        list.innerHTML = html;
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                list.querySelectorAll('.progress-fill').forEach(function(el) { el.style.width = el.dataset.width + '%'; });
             });
-        }));
-
-        // Event: buka detail
-        list.querySelectorAll('.student-card').forEach(card => {
-            const idx = parseInt(card.dataset.index);
-            card.addEventListener('click', () => openDetail(idx));
-            card.addEventListener('keydown', e => {
-                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(idx); }
-            });
+        });
+        list.querySelectorAll('.student-card').forEach(function(card) {
+            var i = parseInt(card.dataset.index);
+            card.addEventListener('click', function() { openDetail(i); });
+            card.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDetail(i); } });
         });
     }
 
     /* ============================================================
-       BOTTOM SHEET DETAIL
+       BOTTOM SHEET
        ============================================================ */
     function openDetail(index) {
-        const s = students[index];
-        const body = document.getElementById('sheet-body');
-
-        let statusBadge;
+        var s = students[index];
+        var body = document.getElementById('sheet-body');
+        var statusBadge;
         if (s.isGold) {
             statusBadge = '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold" style="background:rgba(255,215,0,.15);color:var(--gold-light);border:1px solid rgba(255,215,0,.3)"><i class="fas fa-star"></i> Mumtaz 100%</span>';
         } else if (s.isSilver) {
@@ -439,27 +482,24 @@
         } else {
             statusBadge = '<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold" style="background:rgba(232,168,56,.12);color:var(--jayyid);border:1px solid rgba(232,168,56,.25)"><i class="fas fa-spinner"></i> Dalam Progres</span>';
         }
-
-        const gridHTML = s.grades.map((g, i) => {
-            const cls = g === 'M' ? 'm-tile' : g === 'J' ? 'j-tile' : 'empty-tile';
-            return '<div class="surah-tile ' + cls + '" title="' + surahNames[i] + ': ' + (g || 'Belum') + '">' +
+        var gridHTML = '';
+        for (var i = 0; i < s.grades.length; i++) {
+            var g = s.grades[i];
+            var cls = g === 'M' ? 'm-tile' : g === 'J' ? 'j-tile' : 'empty-tile';
+            gridHTML += '<div class="surah-tile ' + cls + '" title="' + surahNames[i] + ': ' + (g || 'Belum') + '">' +
                 '<span class="tile-num">' + (i + 1) + '</span>' +
                 '<span class="tile-grade">' + (g || '-') + '</span>' +
                 '<span class="tile-name">' + surahNames[i] + '</span></div>';
-        }).join('');
-
+        }
         body.innerHTML =
-            '<div class="flex items-center justify-between mb-1">' +
-                '<h3 class="text-lg font-extrabold">' + s.name + '</h3>' +
-                '<button onclick="closeDetail()" class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--elevated);color:var(--muted)" aria-label="Tutup"><i class="fas fa-times text-sm"></i></button>' +
-            '</div>' +
+            '<div class="flex items-center justify-between mb-1"><h3 class="text-lg font-extrabold">' + s.name + '</h3>' +
+            '<button onclick="closeDetail()" class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--elevated);color:var(--muted)" aria-label="Tutup"><i class="fas fa-times text-sm"></i></button></div>' +
             '<div class="flex items-center gap-2 mb-1">' + statusBadge +
-                '<span class="text-xs" style="color:var(--muted)">' + s.completed + '/' + TOTAL_SURAH + ' surah</span>' +
-            '</div>' +
+            '<span class="text-xs" style="color:var(--muted)">' + s.completed + '/' + TOTAL_SURAH + ' surah</span></div>' +
             '<div class="grid grid-cols-3 gap-3 mt-4 mb-5">' +
-                '<div class="text-center p-2.5 rounded-xl" style="background:rgba(29,185,84,.1);border:1px solid rgba(29,185,84,.2)"><div class="text-xl font-extrabold" style="color:var(--emerald)">' + s.mCount + '</div><div class="text-xs mt-0.5" style="color:var(--muted)">Mumtaz</div></div>' +
-                '<div class="text-center p-2.5 rounded-xl" style="background:rgba(232,168,56,.1);border:1px solid rgba(232,168,56,.2)"><div class="text-xl font-extrabold" style="color:var(--jayyid)">' + s.jCount + '</div><div class="text-xs mt-0.5" style="color:var(--muted)">Jayyid</div></div>' +
-                '<div class="text-center p-2.5 rounded-xl" style="background:rgba(30,61,43,.4);border:1px solid var(--border)"><div class="text-xl font-extrabold" style="color:var(--muted)">' + s.emptyCount + '</div><div class="text-xs mt-0.5" style="color:var(--muted)">Sisa</div></div>' +
+                '<div class="text-center p-2.5 rounded-xl" style="background:var(--tile-m-bg);border:1px solid var(--tile-m-border)"><div class="text-xl font-extrabold" style="color:var(--emerald)">' + s.mCount + '</div><div class="text-xs mt-0.5" style="color:var(--muted)">Mumtaz</div></div>' +
+                '<div class="text-center p-2.5 rounded-xl" style="background:var(--tile-j-bg);border:1px solid var(--tile-j-border)"><div class="text-xl font-extrabold" style="color:var(--jayyid)">' + s.jCount + '</div><div class="text-xs mt-0.5" style="color:var(--muted)">Jayyid</div></div>' +
+                '<div class="text-center p-2.5 rounded-xl" style="background:var(--tile-e-bg);border:1px solid var(--tile-e-border)"><div class="text-xl font-extrabold" style="color:var(--muted)">' + s.emptyCount + '</div><div class="text-xs mt-0.5" style="color:var(--muted)">Sisa</div></div>' +
             '</div>' +
             '<h4 class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--muted)">Detail Per Surah</h4>' +
             '<div class="surah-grid">' + gridHTML + '</div>' +
@@ -468,7 +508,6 @@
                 '<div class="flex items-center gap-1.5"><div class="legend-dot" style="background:var(--jayyid)"></div><span class="text-xs" style="color:var(--muted)">Jayyid</span></div>' +
                 '<div class="flex items-center gap-1.5"><div class="legend-dot" style="background:var(--border)"></div><span class="text-xs" style="color:var(--muted)">Belum</span></div>' +
             '</div>';
-
         document.getElementById('sheet-overlay').classList.add('open');
         document.getElementById('sheet').classList.add('open');
         document.getElementById('sheet-overlay').setAttribute('aria-hidden', 'false');
@@ -481,29 +520,24 @@
         document.getElementById('sheet-overlay').setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
     }
-
     document.getElementById('sheet-overlay').addEventListener('click', closeDetail);
 
     /* Swipe down tutup sheet */
-    let touchStartY = 0, sheetCurrentY = 0, isDragging = false;
-    const sheetEl = document.getElementById('sheet');
-    sheetEl.addEventListener('touchstart', e => {
+    var touchStartY = 0, sheetCurrentY = 0, isDragging = false;
+    var sheetEl = document.getElementById('sheet');
+    sheetEl.addEventListener('touchstart', function(e) {
         if (document.getElementById('sheet-body').scrollTop > 0) return;
-        touchStartY = e.touches[0].clientY;
-        isDragging = true;
-        sheetEl.style.transition = 'none';
+        touchStartY = e.touches[0].clientY; isDragging = true; sheetEl.style.transition = 'none';
     }, { passive: true });
-    sheetEl.addEventListener('touchmove', e => {
+    sheetEl.addEventListener('touchmove', function(e) {
         if (!isDragging) return;
-        const d = e.touches[0].clientY - touchStartY;
+        var d = e.touches[0].clientY - touchStartY;
         if (d > 0) { sheetCurrentY = d; sheetEl.style.transform = 'translateX(-50%) translateY(' + sheetCurrentY + 'px)'; }
     }, { passive: true });
-    sheetEl.addEventListener('touchend', () => {
-        if (!isDragging) return;
-        isDragging = false;
+    sheetEl.addEventListener('touchend', function() {
+        if (!isDragging) return; isDragging = false;
         sheetEl.style.transition = 'transform .4s cubic-bezier(.22,1,.36,1)';
-        if (sheetCurrentY > 120) closeDetail();
-        else sheetEl.style.transform = 'translateX(-50%) translateY(0)';
+        if (sheetCurrentY > 120) closeDetail(); else sheetEl.style.transform = 'translateX(-50%) translateY(0)';
         sheetCurrentY = 0;
     });
 
@@ -511,22 +545,18 @@
        EVENT BINDINGS
        ============================================================ */
     function bindEvents() {
-        document.getElementById('filter-bar').addEventListener('click', e => {
-            const pill = e.target.closest('.pill');
-            if (!pill) return;
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            currentFilter = pill.dataset.filter;
-            renderStudentList();
+        document.getElementById('filter-bar').addEventListener('click', function(e) {
+            var pill = e.target.closest('.pill'); if (!pill) return;
+            document.querySelectorAll('.pill').forEach(function(p){p.classList.remove('active')});
+            pill.classList.add('active'); currentFilter = pill.dataset.filter; renderStudentList();
         });
-        let searchTimeout;
-        document.getElementById('search-input').addEventListener('input', e => {
+        var searchTimeout;
+        document.getElementById('search-input').addEventListener('input', function(e) {
             clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => { searchQuery = e.target.value.trim(); renderStudentList(); }, 200);
+            searchTimeout = setTimeout(function() { searchQuery = e.target.value.trim(); renderStudentList(); }, 200);
         });
     }
-
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeDetail(); });
 
     /* ============================================================
        JALANKAN
