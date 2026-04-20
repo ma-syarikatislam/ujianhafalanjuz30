@@ -168,7 +168,7 @@
     </div>
 
     <div class="sheet-overlay" id="sheet-overlay" aria-hidden="true"></div>
-    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Detail hafalan santri">
+    <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Detail hafalan siswa">
         <div class="sheet-handle"></div>
         <div class="sheet-body" id="sheet-body"></div>
     </div>
@@ -249,7 +249,7 @@
             var name = String(row[0] || '').trim();
             if (!name) continue;
             var lowerName = name.toLowerCase();
-            if (['nama','name','no','#','nomor','santri','no.'].indexOf(lowerName) !== -1) continue;
+            if (['nama','name','no','#','nomor','siswa','no.'].indexOf(lowerName) !== -1) continue;
             var grades = [];
             for (var j = 1; j <= TOTAL_SURAH; j++) {
                 var cell = String(row[j] || '').trim().toUpperCase();
@@ -282,7 +282,7 @@
         if (type === 'file_not_found') {
             m.innerHTML = '<div class="error-screen"><div class="error-box"><i class="fas fa-file-circle-exclamation text-3xl mb-3" style="color:#E85D75"></i><h3 class="font-bold text-base mb-2">File tidak ditemukan</h3><p class="text-sm mb-4" style="color:var(--muted)">Pastikan file <code>' + XLS_FILE + '</code> ada di satu folder dengan <code>index.html</code>.</p><div class="text-left p-3 rounded-lg text-xs" style="background:var(--elevated);color:var(--muted);line-height:1.8"><div class="font-bold mb-1" style="color:var(--text)">Struktur folder:</div><div>📁 repo/<br>&nbsp;&nbsp;&nbsp;├── index.html<br>&nbsp;&nbsp;&nbsp;├── logo.png<br>&nbsp;&nbsp;&nbsp;└── ' + XLS_FILE + '</div></div></div></div>';
         } else if (type === 'empty') {
-            m.innerHTML = '<div class="error-screen"><div class="error-box"><i class="fas fa-table text-3xl mb-3" style="color:var(--jayyid)"></i><h3 class="font-bold text-base mb-2">Data kosong</h3><p class="text-sm" style="color:var(--muted)">File XLS ditemukan tapi tidak ada data santri.</p></div></div>';
+            m.innerHTML = '<div class="error-screen"><div class="error-box"><i class="fas fa-table text-3xl mb-3" style="color:var(--jayyid)"></i><h3 class="font-bold text-base mb-2">Data kosong</h3><p class="text-sm" style="color:var(--muted)">File XLS ditemukan tapi tidak ada data siswa.</p></div></div>';
         } else {
             m.innerHTML = '<div class="error-screen"><div class="error-box"><i class="fas fa-triangle-exclamation text-3xl mb-3" style="color:var(--jayyid)"></i><h3 class="font-bold text-base mb-2">Terjadi kesalahan</h3><p class="text-sm" style="color:var(--muted)">' + type + '</p></div></div>';
         }
@@ -292,12 +292,12 @@
     function renderAll() {
         document.getElementById('main-content').innerHTML =
             '<section class="grid grid-cols-4 gap-2.5 px-4 -mt-4 relative z-10">' +
-                '<div class="stat-card"><div class="text-xs font-semibold" style="color:var(--muted)">Santri</div><div class="text-lg font-extrabold mt-0.5" id="stat-total">0</div></div>' +
+                '<div class="stat-card"><div class="text-xs font-semibold" style="color:var(--muted)">siswa</div><div class="text-lg font-extrabold mt-0.5" id="stat-total">0</div></div>' +
                 '<div class="stat-card gold-stat"><div class="text-xs font-semibold" style="color:var(--gold)">Emas</div><div class="text-lg font-extrabold mt-0.5" style="color:var(--gold-light)" id="stat-gold">0</div></div>' +
                 '<div class="stat-card silver-stat"><div class="text-xs font-semibold" style="color:var(--silver)">Perak</div><div class="text-lg font-extrabold mt-0.5" style="color:var(--silver-light)" id="stat-silver">0</div></div>' +
                 '<div class="stat-card"><div class="text-xs font-semibold" style="color:var(--muted)">Progres</div><div class="text-lg font-extrabold mt-0.5" id="stat-progress">0</div></div>' +
             '</section>' +
-            '<div class="search-wrap px-4 mt-5"><i class="fas fa-search search-icon"></i><input type="text" id="search-input" placeholder="Cari nama santri..." aria-label="Cari nama santri"></div>' +
+            '<div class="search-wrap px-4 mt-5"><i class="fas fa-search search-icon"></i><input type="text" id="search-input" placeholder="Cari nama siswa..." aria-label="Cari nama siswa"></div>' +
             '<div class="flex gap-2 px-4 mt-3 overflow-x-auto pb-1" id="filter-bar" style="scrollbar-width:none">' +
                 '<button class="pill active" data-filter="all">Semua</button>' +
                 '<button class="pill" data-filter="gold"><i class="fas fa-medal mr-1" style="color:var(--gold)"></i>Emas</button>' +
@@ -356,7 +356,7 @@
         if (!list) return;
         var filtered = getFiltered();
         if (filtered.length === 0) {
-            list.innerHTML = '<div class="empty-state"><i class="fas fa-search" style="font-size:2rem;opacity:.3"></i><p class="mt-3 text-sm">Tidak ada santri ditemukan</p></div>';
+            list.innerHTML = '<div class="empty-state"><i class="fas fa-search" style="font-size:2rem;opacity:.3"></i><p class="mt-3 text-sm">Tidak ada siswa ditemukan</p></div>';
             return;
         }
         var html = '';
